@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lego Timeline</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(function() {
+        let currentSlide = 0;
+        const $slidesContainer = $('.slides');
+        const totalSlides = $('.slide').length;
+
+        $(document).keydown(function(e) {
+            if (e.key === 'ArrowRight' && currentSlide < totalSlides - 1) {
+                currentSlide++;
+            } else if (e.key === 'ArrowLeft' && currentSlide > 0) {
+                currentSlide--;
+            } else {
+                return;
+            }
+            $slidesContainer.css('transform', 'translateX(' + (-currentSlide * 100) + 'vw)');
+        });
+    });
+    </script>
+</head>
+<body>
+    <div class="slides">
+    <section class="slide" id="era-1932">
+        <img src="logos/Lego_1934.webp" class="logo" alt="Era 1 Logo">
+    </section>
+
+    <section class="slide" id="era-1950">
+        <img src="logos/Lego_1946.webp" class="logo" alt="Era 2 Logo">
+    </section>
+
+    <section class="slide" id="era-1970">
+        <img src="logos/Lego_1952.webp" class="logo" alt="Era 3 Logo">
+    </section>
+</div>
+</body>
+</html>

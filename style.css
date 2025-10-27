@@ -1,0 +1,33 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.slides {
+    display: flex;
+    width: 300%; /* Adjust based on number of slides */
+    transition: transform 0.7s ease-in-out;
+}
+
+.slide {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    color: white;
+    background-size: cover;
+    background-position: center;
+}
+
+#era-1932 { background: #d32f2f; }
+#era-1950 { background: #1976d2; }
+#era-1970 { background: #388e3c; }
+
+.logo {
+    width: 200px;
+    margin-bottom: 20px;
+}
