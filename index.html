@@ -6,29 +6,67 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>
-        $(function() {
-        let currentSlide = 0;
-        const $slidesContainer = $('.slides');
-        const totalSlides = $('.slide').length;
+$(document).ready(function () {
+    let currentSlide = 0;
+    const totalSlides = $('.slide').length;
 
-        $(document).keydown(function(e) {
-            if (e.key === 'ArrowRight' && currentSlide < totalSlides - 1) {
-                currentSlide++;
-            } else if (e.key === 'ArrowLeft' && currentSlide > 0) {
-                currentSlide--;
-            } else {
-                return;
-            }
-            $slidesContainer.css('transform', 'translateX(' + (-currentSlide * 100) + 'vw)');
-        });
+    $(document).keydown(function (e) {
+        if (e.key === "ArrowRight" && currentSlide < totalSlides - 1) {
+            currentSlide++;
+        } else if (e.key === "ArrowLeft" && currentSlide > 0) {
+            currentSlide--;
+        }
+        $('.slides').css('transform', 'translateX(' + (-currentSlide * 100) + 'vw)');
     });
+
+    // Click to toggle info boxes
+    $('#logo-1932').on('click', function () {
+        const anyVisible = $('.info-box:visible').length > 0;
+
+        if (!anyVisible) {
+            // show boxes, add corner classes and stagger appearance
+            $('#info1').addClass('corner-top-left').css('display','flex').hide().fadeIn(350);
+            setTimeout(() => $('#info2').addClass('corner-top-right').css('display','flex').hide().fadeIn(350), 120);
+            setTimeout(() => $('#info3').addClass('corner-bottom-left').css('display','flex').hide().fadeIn(350), 240);
+            setTimeout(() => $('#info4').addClass('corner-bottom-right').css('display','flex').hide().fadeIn(350), 360);
+        } else {
+            // hide and remove corner classes when hidden
+            $('.info-box').stop(true,true).fadeOut(250, function () {
+                $(this).removeClass('corner-top-right corner-top-left corner-bottom-right corner-bottom-left').css({display:'none'});
+            });
+        }
+    });
+});
     </script>
 </head>
 <body>
     <div class="slides">
     <section class="slide" id="era-1932">
-        <img src="logos/Lego_1934.webp" class="logo" alt="Era 1 Logo">
-    </section>
+    <img src="logos/Lego_1934.webp" class="logo" id="logo-1932" alt="LEGO 1930s Logo">
+    <h1>The Beginning (1932–1949)</h1>
+
+    <!-- Hidden info pop-outs -->
+    <div class="info-box" id="info1">
+        <img src="logos/wooden-duck.webp" alt="Wooden Toys">
+        <p>LEGO started with wooden toys in 1932.</p>
+    </div>
+
+    <div class="info-box" id="info2">
+        <img src="logos/wooden-duck.webp" alt="Plastic Machine">
+        <p>First plastic injection machine purchased in 1947.</p>
+    </div>
+
+    <div class="info-box" id="info3">
+        <img src="logos/ole-kirk.png" alt="Ole Kirk Christiansen">
+        <p>Founded by Ole Kirk Christiansen in Billund, Denmark.</p>
+    </div>
+
+    <div class="info-box" id="info4">
+        <img src="logos/lego-name.png" alt="LEGO Name">
+        <p>“LEGO” means “Play Well” in Danish.</p>
+    </div>
+</section>
+
 
     <section class="slide" id="era-1950">
         <img src="logos/Lego_1946.webp" class="logo" alt="Era 2 Logo">
