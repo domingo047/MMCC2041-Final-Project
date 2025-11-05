@@ -1,80 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Lego Timeline</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css"/>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
     <script>
-$(document).ready(function () {
-    let currentSlide = 0;
-    const totalSlides = $('.slide').length;
+    $(document).ready(function () {
+        let currentSlide = 0;
+        const $slides = $('.slides');
+        const $slideElements = $('.slide');
+        const totalSlides = $slideElements.length;
+        const transitionMs = 700; // matches CSS transition 0.7s
 
-    $(document).keydown(function (e) {
-        if (e.key === "ArrowRight" && currentSlide < totalSlides - 1) {
-            currentSlide++;
-        } else if (e.key === "ArrowLeft" && currentSlide > 0) {
-            currentSlide--;
+        function goToSlide(i) {
+            currentSlide = Math.max(0, Math.min(i, totalSlides - 1));
+            $slides.css('transform', 'translateX(' + (-currentSlide * 100) + 'vw)');
         }
-        $('.slides').css('transform', 'translateX(' + (-currentSlide * 100) + 'vw)');
-    });
 
-    // Click to toggle info boxes
-    $('#logo-1932').on('click', function () {
-        const anyVisible = $('.info-box:visible').length > 0;
+        // keyboard nav
+        $(document).keydown(function (e) {
+            if (e.key === "ArrowRight" && currentSlide < totalSlides - 1) {
+                goToSlide(currentSlide + 1);
+            } else if (e.key === "ArrowLeft" && currentSlide > 0) {
+                goToSlide(currentSlide - 1);
+            }
+        });
 
-        if (!anyVisible) {
-            // show boxes, add corner classes and stagger appearance
-            $('#info1').addClass('corner-top-left').css('display','flex').hide().fadeIn(350);
-            setTimeout(() => $('#info2').addClass('corner-top-right').css('display','flex').hide().fadeIn(350), 120);
-            setTimeout(() => $('#info3').addClass('corner-bottom-left').css('display','flex').hide().fadeIn(350), 240);
-            setTimeout(() => $('#info4').addClass('corner-bottom-right').css('display','flex').hide().fadeIn(350), 360);
-        } else {
-            // hide and remove corner classes when hidden
-            $('.info-box').stop(true,true).fadeOut(250, function () {
-                $(this).removeClass('corner-top-right corner-top-left corner-bottom-right corner-bottom-left').css({display:'none'});
-            });
+        // helper to show/hide boxes for a slide
+        function showBoxesFor($slide) {
+            const $boxes = $slide.find('.info-box');
+            const anyVisible = $boxes.filter(':visible').length > 0;
+            const corners = ['corner-bottom-right','corner-top-right','corner-top-left','corner-bottom-left'];
+
+            if (!anyVisible) {
+                // hide boxes in other slides and reset their inline position so classes can take effect
+                $('.info-box').not($boxes).hide().removeClass(corners.join(' '))
+                    .css({ display: 'none', top: '50%', left: '50%', right: '', bottom: '', transform: 'translate(-50%,-50%)' });
+
+                // show this slide's boxes with stagger
+                $boxes.each(function (i) {
+                    const $b = $(this);
+                    const cls = corners[i] || corners[i % corners.length];
+
+                    // IMPORTANT: remove any inline top/left/right/bottom/transform so the corner class can control position
+                    $b.stop(true, true)
+                        .removeClass(corners.join(' '))
+                        .css({ top: '', left: '', right: '', bottom: '', transform: '' })
+                        .addClass(cls)
+                        .css({ display: 'flex', opacity: 0 })
+                        .delay(i * 100)
+                        .animate({ opacity: 1 }, 350);
+                });
+            } else {
+                // hide and reset
+                $boxes.stop(true, true).fadeOut(250, function () {
+                    $(this).removeClass(corners.join(' '))
+                        .css({ display: 'none', top: '50%', left: '50%', right: '', bottom: '', transform: 'translate(-50%,-50%)' });
+                });
+            }
         }
+
+        // click logo: if slide not visible, navigate first then show; otherwise toggle immediately
+        $('.logo').on('click', function (ev) {
+            ev.stopPropagation();
+            const $slide = $(this).closest('.slide');
+            const slideIndex = $slideElements.index($slide);
+
+            if (slideIndex === -1) return;
+
+            if (slideIndex !== currentSlide) {
+                // navigate to that slide then show boxes after transition
+                goToSlide(slideIndex);
+                setTimeout(function () {
+                    showBoxesFor($slide);
+                }, transitionMs + 30);
+            } else {
+                // same slide: toggle immediately
+                showBoxesFor($slide);
+            }
+        });
+
+        // clicking outside closes any open info boxes
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.logo, .info-box').length) {
+                const corners = ['corner-bottom-right','corner-top-right','corner-top-left','corner-bottom-left'];
+                $('.info-box:visible').fadeOut(250, function () {
+                    $(this).removeClass(corners.join(' '))
+                        .css({ display: 'none', top: '50%', left: '50%', right: '', bottom: '', transform: 'translate(-50%,-50%)' });
+                });
+            }
+        });
     });
-});
     </script>
 </head>
 <body>
     <div class="slides">
-    <section class="slide" id="era-1932">
-    <img src="logos/Lego_1934.webp" class="logo" id="logo-1932" alt="LEGO 1930s Logo">
-    <h1>The Beginning (1932–1949)</h1>
+        <section class="slide" id="era-1932">
+            <img src="logos/Lego_1934.webp" class="logo" id="logo-1932" alt="LEGO 1930s Logo">
 
-    <!-- Hidden info pop-outs -->
-    <div class="info-box" id="info1">
-        <img src="logos/wooden-duck.webp" alt="Wooden Toys">
-        <p>LEGO started with wooden toys in 1932.</p>
+            <div class="info-box" id="info1">
+                <img src="logos/wooden-duck.webp" alt="Wooden Toys">
+                <p>Founded by Ole Kirk Christiansen in Billund, Denmark.</p>
+            </div>
+
+            <div class="info-box" id="info2">
+                <img src="logos/wooden-duck.webp" alt="Plastic Machine">
+                <p>LEGO started with selling wooden toys in 1932.</p>
+            </div>
+
+            <div class="info-box" id="info3">
+                <img src="logos/ole-kirk.png" alt="Ole Kirk Christiansen">
+                <p>Ole Kirk Christiansen's son helped with the design of the toys.</p>
+            </div>
+
+            <div class="info-box" id="info4">
+                <img src="logos/lego-name.png" alt="LEGO Name">
+                <p>“LEGO” comes from two Danish words “Leg” and “Godt” which means “Play Well”.</p>
+            </div>
+        </section>
+
+        <section class="slide" id="era-1940">
+            <img src="logos/Lego_1946.webp" class="logo" alt="Era 2 Logo">
+
+            <div class="info-box" id="info5">
+                <img src="logos/lego-brick-1950s.webp" alt="First LEGO Brick">
+                <p>Ole Kirk Christiansen ordered the plastic injection machine in 1947.</p>
+            </div>
+
+            <div class="info-box" id="info6">
+                <img src="logos/lego-brick-1950s.webp" alt="First LEGO Brick">
+                <p>The first set of Lego bricks was sold in 1949.</p>
+            </div>
+
+            <div class="info-box" id="info7">
+                <img src="logos/lego-brick-1950s.webp" alt="First LEGO Brick">
+                <p>The modern LEGO brick design with interlocking studs was patented in 1958.</p>
+            </div>
+
+            <div class="info-box" id="info8">
+                <img src="logos/lego-brick-1950s.webp" alt="First LEGO Brick">
+                <p>After 1960 Lego stopped selling wooden toys after a house fire occurred.</p>
+            </div>
+        </section>
+
+        <section class="slide" id="era-1970">
+            <img src="logos/Lego_System_1960.svg" class="logo" alt="Era 3 Logo">
+
+            <div class="info-box" id="info9">
+                <img src="logos/lego-minifig-1970s.webp" alt="First LEGO Minifigure">
+                <p>The first LEGO minifigure was introduced in 1978.</p>
+            </div>
+
+            <div class="info-box" id="info10">
+                <img src="logos/lego-theme-castle-1970s.webp" alt="LEGO Castle Theme">
+                <p>The first themed sets, including Castle and Space, were launched in the late 1970s.</p>
+            </div>
+
+            <div class="info-box" id="info11">
+                <img src="logos/lego-theme-city-1970s.webp" alt="LEGO City Theme">
+                <p>The LEGO City theme was introduced in 1978, featuring urban life and vehicles.</p>
+            </div>
+
+            <div class="info-box" id="info12">
+                <img src="logos/lego-theme-technic-1970s.webp" alt="LEGO Technic Theme">
+                <p>The LEGO Technic line, featuring more complex models with gears and axles, was launched in 1977.</p>
+            </div>
+        </section>
+
+        <section class="slide" id="era-1990">
+            <img src="logos/Lego_1972.svg" class="logo" alt="Era 4 Logo">
+
+            <div class="info-box" id="info13">
+                <img src="logos/lego-theme-star-wars-1990s.webp" alt="LEGO Star Wars Theme">
+                <p>In 1999, LEGO launched the Star Wars theme, which became one of its most popular lines.</p>
+            </div>
+
+            <div class="info-box" id="info14">
+                <img src="logos/lego-theme-harry-potter-2000s.webp" alt="LEGO Harry Potter Theme">
+                <p>The Harry Potter theme was introduced in 2001, coinciding with the release of the first film.</p>
+            </div>
+
+            <div class="info-box" id="info15">
+                <img src="logos/lego-theme-bionicle-2000s.webp" alt="LEGO Bionicle Theme">
+                <p>The Bionicle theme, launched in 2001, featured a unique storyline and action figures.</p>
+            </div>
+
+            <div class="info-box" id="info16">
+                <img src="logos/lego-theme-friends-2010s.webp" alt="LEGO Friends Theme">
+                <p>The LEGO Friends theme, introduced in 2012, targeted a female audience with mini-doll figures and detailed settings.</p>
+            </div>
+        </section>
+
+        <section class="slide" id="era-2010">
+            <img src="logos/Lego.svg" class="logo" alt="Era 5 Logo">
+
+            <div class="info-box" id="info17">
+                <img src="logos/lego-theme-ninjago-2010s.webp" alt="LEGO Ninjago Theme">
+                <p>The LEGO Ninjago theme, launched in 2011, became a major success with its TV series and merchandise.</p>
+            </div>
+
+            <div class="info-box" id="info18">
+                <img src="logos/lego-theme-ideas-2010s.webp" alt="LEGO Ideas Theme">
+                <p>LEGO Ideas, introduced in 2011, allows fans to submit their own designs for potential production.</p>
+            </div>
+
+            <div class="info-box" id="info19">
+                <img src="logos/lego-theme-architecture-2010s.webp" alt="LEGO Architecture Theme">
+                <p>The LEGO Architecture series, launched in 2008, features iconic buildings from around the world.</p>
+            </div>
+
+            <div class="info-box" id="info20">
+                <img src="logos/lego-theme-minecraft-2010s.webp" alt="LEGO Minecraft Theme">
+                <p>The LEGO Minecraft theme, introduced in 2014, brings the popular video game to life with brick-built sets.</p>
+            </div>
+        </section>
     </div>
-
-    <div class="info-box" id="info2">
-        <img src="logos/wooden-duck.webp" alt="Plastic Machine">
-        <p>First plastic injection machine purchased in 1947.</p>
-    </div>
-
-    <div class="info-box" id="info3">
-        <img src="logos/ole-kirk.png" alt="Ole Kirk Christiansen">
-        <p>Founded by Ole Kirk Christiansen in Billund, Denmark.</p>
-    </div>
-
-    <div class="info-box" id="info4">
-        <img src="logos/lego-name.png" alt="LEGO Name">
-        <p>“LEGO” means “Play Well” in Danish.</p>
-    </div>
-</section>
-
-
-    <section class="slide" id="era-1950">
-        <img src="logos/Lego_1946.webp" class="logo" alt="Era 2 Logo">
-    </section>
-
-    <section class="slide" id="era-1970">
-        <img src="logos/Lego_1952.webp" class="logo" alt="Era 3 Logo">
-    </section>
-</div>
 </body>
 </html>

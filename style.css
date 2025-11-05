@@ -1,59 +1,87 @@
+/* ...existing code... */
 html, body {
     margin: 0;
     padding: 0;
+    height: 100%;
     overflow: hidden;
+    font-family: Arial, sans-serif;
 }
 
 .slides {
     display: flex;
-    width: 300%; /* Adjust based on number of slides */
+    flex-wrap: nowrap;        /* prevent slides from wrapping */
     transition: transform 0.7s ease-in-out;
+    height: 100vh;
+    /* remove fixed width so container size is determined by children */
 }
 
 .slide {
     position: relative;
-    width: 100vw;
+    flex: 0 0 100vw;         /* each slide is exactly one viewport width */
+    width: 100vw;            /* fallback for older browsers */
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-family: Arial, sans-serif;
     color: white;
     background-size: cover;
     background-position: center;
+    box-sizing: border-box;
+    padding: 20px;
 }
 
 #era-1932 { background: #d32f2f; }
-#era-1950 { background: #1976d2; }
+#era-1940 { background: #1976d2; }
 #era-1970 { background: #388e3c; }
+#era-1990 { background: purple; }
+#era-2010 { background: #fbc02d; }
 
+/* ...existing code... */
 .logo {
-    width: 250px;
+    width: 350px;
     cursor: pointer;
-    transition: transform 0.3s ease;
+    transition: transform 0.25s ease;
+    user-select: none;
 }
 
-.logo:hover {
-    transform: scale(1.1);
-}
+.logo:hover { transform: scale(1.05); }
 
+/* Info box base (centered by default) */
 .info-box {
     position: absolute;
     width: 220px;
     padding: 10px;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
     display: none;
     align-items: center;
     gap: 10px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    box-sizing: border-box;
+
+    /* ensure info boxes appear above slides and other content */
+    z-index: 999;
 }
 
-/* corner positions applied when visible */
+.info-box img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.info-box p {
+    color: #000;
+    font-size: 14px;
+    margin: 0;
+    line-height: 1.2;
+}
+
+/* Corner classes (override centered position) */
 .info-box.corner-top-right {
     top: 10%;
     right: 10%;
@@ -69,6 +97,7 @@ html, body {
     bottom: auto;
     transform: none;
 }
+
 .info-box.corner-bottom-right {
     bottom: 10%;
     right: 10%;
@@ -76,22 +105,12 @@ html, body {
     left: auto;
     transform: none;
 }
+
 .info-box.corner-bottom-left {
     bottom: 10%;
     left: 10%;
     top: auto;
     right: auto;
     transform: none;
-}
-.info-box img {
-    width: 60px;
-    height: 60px;
-    border-radius: 8px;
-}
-
-.info-box p {
-    color: #000;
-    font-size: 14px;
-    margin: 0;
 }
 
