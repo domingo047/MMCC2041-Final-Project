@@ -50,35 +50,48 @@ html, body {
 /* Info box base (centered by default) */
 .info-box {
     position: absolute;
-    width: 220px;
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 10px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    width: 240px;
+    padding: 0;                       /* remove padding so image is not inside white box */
+    background: transparent;          /* make container transparent */
+    border-radius: 0;
+    box-shadow: none;
     display: none;
+    gap: 8px;
+
+    /* stack image above caption */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 10px;
+
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     box-sizing: border-box;
-
-    /* ensure info boxes appear above slides and other content */
     z-index: 999;
 }
 
 .info-box img {
-    width: 60px;
-    height: 60px;
+    width: 160px;      /* image stays outside the white caption box */
+    height: auto;
     object-fit: cover;
     border-radius: 8px;
+    display: block;
+    margin: 0 0 8px 0; /* caption sits below the image */
 }
 
+/* caption only has the white box */
 .info-box p {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
     color: #000;
-    font-size: 14px;
+    font-size: 13px;
     margin: 0;
     line-height: 1.2;
+    text-align: center;
+    max-width: 220px;
 }
 
 /* Corner classes (override centered position) */

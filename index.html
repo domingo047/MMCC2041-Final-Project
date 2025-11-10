@@ -13,14 +13,14 @@
         const $slides = $('.slides');
         const $slideElements = $('.slide');
         const totalSlides = $slideElements.length;
-        const transitionMs = 700; // matches CSS transition 0.7s
+        const transitionMs = 700; // should match CSS transition
 
         function goToSlide(i) {
             currentSlide = Math.max(0, Math.min(i, totalSlides - 1));
             $slides.css('transform', 'translateX(' + (-currentSlide * 100) + 'vw)');
         }
 
-        // keyboard nav
+        // keyboard nav (unchanged)
         $(document).keydown(function (e) {
             if (e.key === "ArrowRight" && currentSlide < totalSlides - 1) {
                 goToSlide(currentSlide + 1);
@@ -29,33 +29,32 @@
             }
         });
 
-        // helper to show/hide boxes for a slide
-        function showBoxesFor($slide) {
+        // show/hide boxes helper (works for any slide)
+        function toggleBoxesFor($slide) {
             const $boxes = $slide.find('.info-box');
             const anyVisible = $boxes.filter(':visible').length > 0;
             const corners = ['corner-bottom-right','corner-top-right','corner-top-left','corner-bottom-left'];
 
             if (!anyVisible) {
-                // hide boxes in other slides and reset their inline position so classes can take effect
+                // hide boxes from other slides and reset inline positioning so CSS corner classes work
                 $('.info-box').not($boxes).hide().removeClass(corners.join(' '))
-                    .css({ display: 'none', top: '50%', left: '50%', right: '', bottom: '', transform: 'translate(-50%,-50%)' });
+                    .css({ top: '50%', left: '50%', right: '', bottom: '', transform: 'translate(-50%,-50%)', display: 'none' });
 
-                // show this slide's boxes with stagger
+                // show this slide's boxes with stagger; remove any inline positioning first
                 $boxes.each(function (i) {
                     const $b = $(this);
                     const cls = corners[i] || corners[i % corners.length];
 
-                    // IMPORTANT: remove any inline top/left/right/bottom/transform so the corner class can control position
                     $b.stop(true, true)
                         .removeClass(corners.join(' '))
-                        .css({ top: '', left: '', right: '', bottom: '', transform: '' })
+                        .css({ top: '', left: '', right: '', bottom: '', transform: '' }) // allow corner class to control pos
                         .addClass(cls)
                         .css({ display: 'flex', opacity: 0 })
                         .delay(i * 100)
                         .animate({ opacity: 1 }, 350);
                 });
             } else {
-                // hide and reset
+                // hide and reset this slide's boxes
                 $boxes.stop(true, true).fadeOut(250, function () {
                     $(this).removeClass(corners.join(' '))
                         .css({ display: 'none', top: '50%', left: '50%', right: '', bottom: '', transform: 'translate(-50%,-50%)' });
@@ -63,31 +62,26 @@
             }
         }
 
-        // click logo: if slide not visible, navigate first then show; otherwise toggle immediately
+        // click logo: navigate to that slide if needed, then toggle its boxes
         $('.logo').on('click', function (ev) {
             ev.stopPropagation();
             const $slide = $(this).closest('.slide');
-            const slideIndex = $slideElements.index($slide);
+            const idx = $slideElements.index($slide);
+            if (idx === -1) return;
 
-            if (slideIndex === -1) return;
-
-            if (slideIndex !== currentSlide) {
-                // navigate to that slide then show boxes after transition
-                goToSlide(slideIndex);
-                setTimeout(function () {
-                    showBoxesFor($slide);
-                }, transitionMs + 30);
+            if (idx !== currentSlide) {
+                goToSlide(idx);
+                setTimeout(function () { toggleBoxesFor($slide); }, transitionMs + 20);
             } else {
-                // same slide: toggle immediately
-                showBoxesFor($slide);
+                toggleBoxesFor($slide);
             }
         });
 
-        // clicking outside closes any open info boxes
+        // click outside closes any open info boxes
         $(document).on('click', function (e) {
             if (!$(e.target).closest('.logo, .info-box').length) {
                 const corners = ['corner-bottom-right','corner-top-right','corner-top-left','corner-bottom-left'];
-                $('.info-box:visible').fadeOut(250, function () {
+                $('.info-box:visible').fadeOut(200, function () {
                     $(this).removeClass(corners.join(' '))
                         .css({ display: 'none', top: '50%', left: '50%', right: '', bottom: '', transform: 'translate(-50%,-50%)' });
                 });
