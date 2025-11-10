@@ -21,11 +21,12 @@
         });
 
         let currentSlide = 0;
-        const $slides = $('.slides');
-        const $slideElements = $('.slide');
-        const totalSlides = $slideElements.length;
-        const transitionMs = 700; // should match CSS transition
+        const $slides = $('.slides');                 // container that translates
+        const $slideElements = $('.slide');           // list of slide elements
+        const totalSlides = $slideElements.length;    // used to bound navigation
+        const transitionMs = 700; // must match CSS .slides transition duration
 
+        // goToSlide: safely move to a slide index and update transform
         function goToSlide(i) {
             currentSlide = Math.max(0, Math.min(i, totalSlides - 1));
             $slides.css('transform', 'translateX(' + (-currentSlide * 100) + 'vw)');
@@ -40,10 +41,13 @@
             }
         });
 
-        // show/hide boxes helper (works for any slide)
+        // toggleBoxesFor: show/hide the four info boxes for a given slide
+        // It assigns corner CSS classes so boxes move to corners.
+        // It hides boxes from other slides first.
+        // Uses simple staggered fade animations for visual effect.
         function toggleBoxesFor($slide) {
-            const $boxes = $slide.find('.info-box');
-            const anyVisible = $boxes.filter(':visible').length > 0;
+            const $boxes = $slide.find('.info-box');                     // figures inside that slide
+            const anyVisible = $boxes.filter(':visible').length > 0;     // check visible state
             const corners = ['corner-bottom-right','corner-top-right','corner-top-left','corner-bottom-left'];
 
             if (!anyVisible) {
@@ -58,10 +62,10 @@
 
                     $b.stop(true, true)
                         .removeClass(corners.join(' '))
-                        .css({ top: '', left: '', right: '', bottom: '', transform: '' }) // allow corner class to control pos
+                        .css({ top: '', left: '', right: '', bottom: '', transform: '' }) // allow corner classes to apply
                         .addClass(cls)
                         .css({ display: 'flex', opacity: 0 })
-                        .delay(i * 100)
+                        .delay(i * 100)                    // stagger appearance
                         .animate({ opacity: 1 }, 350);
                 });
             } else {
@@ -81,14 +85,17 @@
             if (idx === -1) return;
 
             if (idx !== currentSlide) {
+                // navigate slide, then show boxes after transition completes
                 goToSlide(idx);
                 setTimeout(function () { toggleBoxesFor($slide); }, transitionMs + 20);
             } else {
+                // same slide -> toggle immediately
                 toggleBoxesFor($slide);
             }
         });
 
-        // click outside closes any open info boxes
+        // Click outside logos or info boxes closes any open info boxes.
+        // This prevents boxes staying open when user clicks elsewhere.
         $(document).on('click', function (e) {
             if (!$(e.target).closest('.logo, .info-box').length) {
                 const corners = ['corner-bottom-right','corner-top-right','corner-top-left','corner-bottom-left'];
@@ -105,21 +112,23 @@
             const $panel = $("#history-" + slideId);
             if ($panel.length === 0) return; // no panel defined
 
-            // hide other panels
+            // hide other panels first (if visible)
             $('.history-panel').not($panel).filter(':visible').slideUp(200);
 
             if ($panel.is(':visible')) {
+                // panel already open -> close and scroll top
                 $panel.slideUp(200, function () {
                     $('html, body').animate({ scrollTop: 0 }, 300);
                 });
             } else {
+                // open this panel and scroll to it
                 $panel.slideDown(300, function () {
                     $('html, body').animate({ scrollTop: $panel.offset().top - 10 }, 350);
                 });
             }
         });
 
-        // delegate close button for any history panel
+        // Delegate close button for panels (works for all history panels)
         $(document).on('click', '.history-panel .close-history', function () {
             const $panel = $(this).closest('.history-panel');
             $panel.slideUp(250, function () {
@@ -131,6 +140,7 @@
 </head>
 <body>
     <div class="slides">
+        <!-- Slide / Era 1932 -->
         <section class="slide" id="era-1932">
             <img src="logos/Lego_1934.webp" class="logo" id="logo-1932" alt="LEGO 1930s Logo">
             <button class="history-btn">Read Full LEGO History</button>
@@ -164,6 +174,7 @@
             </figure>
         </section>
 
+        <!-- Slide / Era 1940 -->
         <section class="slide" id="era-1940">
             <img src="logos/Lego_1946.webp" class="logo" alt="Era 2 Logo">
             <button class="history-btn">Read Full LEGO History</button>
@@ -197,6 +208,7 @@
             </figure>
         </section>
 
+        <!-- Slide / Era 1970 -->
         <section class="slide" id="era-1970">
             <img src="logos/Lego_System_1960.svg" class="logo" alt="Era 3 Logo">
             <button class="history-btn">Read Full LEGO History</button>
@@ -230,6 +242,7 @@
             </figure>
         </section>
 
+        <!-- Slide / Era 1990 -->
         <section class="slide" id="era-1990">
             <img src="logos/Lego_1972.svg" class="logo" alt="Era 4 Logo">
             <button class="history-btn">Read Full LEGO History</button>
@@ -263,6 +276,7 @@
             </figure>
         </section>
 
+        <!-- Slide / Era 2010 -->
         <section class="slide" id="era-2010">
             <img src="logos/Lego.svg" class="logo" alt="Era 5 Logo">
             <button class="history-btn">Read Full LEGO History</button>
