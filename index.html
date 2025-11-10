@@ -31,7 +31,7 @@
             $slides.css('transform', 'translateX(' + (-currentSlide * 100) + 'vw)');
         }
 
-        // keyboard nav (unchanged)
+        // keyboard nav 
         $(document).keydown(function (e) {
             if (e.key === "ArrowRight" && currentSlide < totalSlides - 1) {
                 goToSlide(currentSlide + 1);
@@ -51,7 +51,7 @@
                 $('.info-box').not($boxes).hide().removeClass(corners.join(' '))
                     .css({ top: '50%', left: '50%', right: '', bottom: '', transform: 'translate(-50%,-50%)', display: 'none' });
 
-                // show this slide's boxes with stagger; remove any inline positioning first
+                // show this slide's boxes with stagger, remove any inline positioning first
                 $boxes.each(function (i) {
                     const $b = $(this);
                     const cls = corners[i] || corners[i % corners.length];
@@ -73,7 +73,7 @@
             }
         }
 
-        // click logo: navigate to that slide if needed, then toggle its boxes
+        // click logo then toggle its boxes
         $('.logo').on('click', function (ev) {
             ev.stopPropagation();
             const $slide = $(this).closest('.slide');
@@ -98,7 +98,7 @@
                 });
             }
         });
-        // each slide has its own inline history panel (empty by default for you to fill)
+        // each slide has its own inline history panel 
         $('.history-btn').on('click', function () {
             const $slide = $(this).closest('.slide');
             const slideId = $slide.attr('id'); // e.g. "era-1932"
@@ -135,128 +135,168 @@
             <img src="logos/Lego_1934.webp" class="logo" id="logo-1932" alt="LEGO 1930s Logo">
             <button class="history-btn">Read Full LEGO History</button>
 
-            <div class="info-box" id="info1">
+            <figure class="info-box" id="info1">
                 <img src="photos/Ole_Kirk_Christiansen.jpeg" alt="Wooden Toys">
-                <p>Founded by Ole Kirk Christiansen in Billund, Denmark.</p>
-            </div>
+                <figcaption>
+                    <p>Founded by Ole Kirk Christiansen in Billund, Denmark.</p>
+                </figcaption>
+            </figure>
 
-            <div class="info-box" id="info2">
+            <figure class="info-box" id="info2">
                 <img src="photos/wooden-duck.webp" alt="Plastic Machine">
-                <p>LEGO started with selling wooden toys in 1932.</p>
-            </div>
+                <figcaption>
+                    <p>LEGO started with selling wooden toys in 1932.</p>
+                </figcaption>
+            </figure>
 
-            <div class="info-box" id="info3">
+            <figure class="info-box" id="info3">
                 <img src="photos/Lego_Blueprint.jpg" alt="Ole Kirk Christiansen">
-                <p>Ole Kirk Christiansen's son helped with the design of the toys.</p>
-            </div>
+                <figcaption>
+                    <p>Ole Kirk Christiansen's son helped with the design of the toys.</p>
+                </figcaption>
+            </figure>
 
-            <div class="info-box" id="info4">
+            <figure class="info-box" id="info4">
                 <img src="photos/Leg-Godt.jpg" alt="LEGO Name">
-                <p>“LEGO” comes from two Danish words “Leg” and “Godt” which means “Play Well”.</p>
-            </div>
+                <figcaption>
+                    <p>“LEGO” comes from two Danish words “Leg” and “Godt” which means “Play Well”.</p>
+                </figcaption>
+            </figure>
         </section>
 
         <section class="slide" id="era-1940">
             <img src="logos/Lego_1946.webp" class="logo" alt="Era 2 Logo">
             <button class="history-btn">Read Full LEGO History</button>
 
-            <div class="info-box" id="info5">
+            <figure class="info-box" id="info5">
                 <img src="photos/Injection Molding.webp" alt="First LEGO Brick">
-                <p>Ole Kirk Christiansen ordered the plastic injection machine in 1947.</p>
-            </div>
+                <figcaption>
+                    <p>Ole Kirk Christiansen ordered the plastic injection machine in 1947.</p>
+                </figcaption>
+            </figure>
 
-            <div class="info-box" id="info6">
+            <figure class="info-box" id="info6">
                 <img src="photos/First Lego Set.jpg" alt="First LEGO Brick">
-                <p>The first set of Lego bricks was sold in 1949.</p>
-            </div>
+                <figcaption>
+                    <p>The first set of Lego bricks was sold in 1949.</p>
+                </figcaption>
+            </figure>
 
-            <div class="info-box" id="info7">
+            <figure class="info-box" id="info7">
                 <img src="photos/Lego interlocking studs.avif" alt="First LEGO Brick">
-                <p>The modern LEGO brick design with interlocking studs was patented in 1958.</p>
-            </div>
+                <figcaption>
+                    <p>The modern LEGO brick design with interlocking studs was patented in 1958.</p>
+                </figcaption>
+            </figure>
 
-            <div class="info-box" id="info8">
+            <figure class="info-box" id="info8">
                 <img src="photos/House fire.webp" alt="First LEGO Brick">
-                <p>After 1960 Lego stopped selling wooden toys after a house fire occurred.</p>
-            </div>
+                <figcaption>
+                    <p>After 1960 Lego stopped selling wooden toys after a house fire occurred.</p>
+                </figcaption>
+            </figure>
         </section>
 
         <section class="slide" id="era-1970">
             <img src="logos/Lego_System_1960.svg" class="logo" alt="Era 3 Logo">
             <button class="history-btn">Read Full LEGO History</button>
 
-            <div class="info-box" id="info9">
+            <figure class="info-box" id="info9">
                 <img src="photos/lego wheels.jpg" alt="Introduction of LEGO wheels">
-                <p>This innovation enabled the first realistic vehicles and later led to specialised sets involving transport and mobility.</p>
-            </div>
+                <figcaption>
+                    <p>This innovation enabled the first realistic vehicles and later led to specialised sets involving transport and mobility.</p>
+                </figcaption>
+            </figure>
 
-            <div class="info-box" id="info10">
+            <figure class="info-box" id="info10">
                 <img src="photos/lego castle.jpg" alt="LEGO Castle Theme">
-                <p>The first themed sets, including Castle and Space, were launched in the late 1970s.</p>
-            </div>
+                <figcaption>
+                    <p>The first themed sets, including Castle and Space, were launched in the late 1970s.</p>
+                </figcaption>
+            </figure>
 
-            <div class="info-box" id="info11">
+            <figure class="info-box" id="info11">
                 <img src="photos/lego instructions.webp" alt="LEGO Instructions">
-                <p>LEGO moved from boxes of bricks to structured model-based play, beginning the concept of guided assembly with step-by-step instructions.</p>
-            </div>
+                <figcaption>
+                    <p>LEGO moved from boxes of bricks to structured model-based play, beginning the concept of guided assembly with step-by-step instructions.</p>
+                </figcaption>
+            </figure>
 
-            <div class="info-box" id="info12">
+            <figure class="info-box" id="info12">
                 <img src="photos/LEGOLAND.webp" alt="Opening of the first LEGOLAND Park">
-                <p>The theme park demonstrated the scalability and cultural influence of the LEGO System, attracting over 600,000 visitors in its first year.</p>
-            </div>
+                <figcaption>
+                    <p>The theme park demonstrated the scalability and cultural influence of the LEGO System, attracting over 600,000 visitors in its first year.</p>
+                </figcaption>
+            </figure>
         </section>
 
         <section class="slide" id="era-1990">
             <img src="logos/Lego_1972.svg" class="logo" alt="Era 4 Logo">
             <button class="history-btn">Read Full LEGO History</button>
 
-            <div class="info-box" id="info14">
+            <figure class="info-box" id="info14">
                 <img src="photos/Lego minfig.avif" alt="First LEGO Minifigure">
-                <p>The first LEGO minifigure was introduced in 1978.</p>
-            </div>
+                <figcaption>
+                    <p>The first LEGO minifigure was introduced in 1978.</p>
+                </figcaption>
+            </figure>
 
-            <div class="info-box" id="info13">
+            <figure class="info-box" id="info13">
                 <img src="photos/Screenshot 2025-11-10 175846.png" alt="Launch of LEGO.com and online community presence">
-                <p>LEGO entered the internet era with an official corporate and consumer-facing website, beginning its shift into digital ecosystems and online engagement with fans.</p>
-            </div>
+                <figcaption>
+                    <p>LEGO entered the internet era with an official corporate and consumer-facing website, beginning its shift into digital ecosystems and online engagement with fans.</p>
+                </figcaption>
+            </figure>
 
-            <div class="info-box" id="info15">
+            <figure class="info-box" id="info15">
                 <img src="photos/Lego technic.jpg" alt="Establishment of the LEGO Technic line">
-                <p>Complex mechanical functions such as gears, axles, and pneumatics encouraged engineering-oriented play and older-age engagement.</p>
-            </div>
+                <figcaption>
+                    <p>Complex mechanical functions such as gears, axles, and pneumatics encouraged engineering-oriented play and older-age engagement.</p>
+                </figcaption>
+            </figure>
 
-            <div class="info-box" id="info16">
+            <figure class="info-box" id="info16">
                 <img src="photos/lego mindstorms.png" alt="First digital ventures and launch of Mindstorms">
-                <p>The company entered software and robotics. In 1998 LEGO Mindstorms Robotics Invention System was released, becoming one of LEGO’s most influential products.</p>
-            </div>
+                <figcaption>
+                    <p>The company entered software and robotics. In 1998 LEGO Mindstorms Robotics Invention System was released, becoming one of LEGO’s most influential products.</p>
+                </figcaption>
+            </figure>
         </section>
 
         <section class="slide" id="era-2010">
             <img src="logos/Lego.svg" class="logo" alt="Era 5 Logo">
             <button class="history-btn">Read Full LEGO History</button>
 
-            <div class="info-box" id="info17">
+            <figure class="info-box" id="info17">
                 <img src="photos/lego star wars.jpg" alt="First licensed partnership (LEGO Star Wars)">
-                <p>This marked the beginning of major global franchise collaborations, transforming LEGO into a cross-media entertainment brand.</p>
-            </div>
+                <figcaption>
+                    <p>This marked the beginning of major global franchise collaborations, transforming LEGO into a cross-media entertainment brand.</p>
+                </figcaption>
+            </figure>
 
-            <div class="info-box" id="info18">
+            <figure class="info-box" id="info18">
                 <img src="photos/lego financial.jpg" alt="Financial restructuring and recovery">
-                <p>After near bankruptcy due to over-diversification, the company refocused on core sets, leading to a significant turnaround.</p>
-            </div>
+                <figcaption>
+                    <p>After near bankruptcy due to over-diversification, the company refocused on core sets, leading to a significant turnaround.</p>
+                </figcaption>
+            </figure>
 
-            <div class="info-box" id="info19">
+            <figure class="info-box" id="info19">
                 <img src="photos/lego movie.webp" alt="Media success and cultural mainstreaming">
-                <p>The LEGO Movie (2014), sequels, and tie-in sets elevated LEGO from toy manufacturer to pop-culture icon.</p>
-            </div>
+                <figcaption>
+                    <p>The LEGO Movie (2014), sequels, and tie-in sets elevated LEGO from toy manufacturer to pop-culture icon.</p>
+                </figcaption>
+            </figure>
 
-            <div class="info-box" id="info20">
+            <figure class="info-box" id="info20">
                 <img src="photos/lego environment.jpg" alt="Sustainability and material innovation">
-                <p>LEGO announced a long-term plan to shift to sustainable materials and introduced bricks made from plant-based polyethylene derived from sugarcane.</p>
-            </div>
+                <figcaption>
+                    <p>LEGO announced a long-term plan to shift to sustainable materials and introduced bricks made from plant-based polyethylene derived from sugarcane.</p>
+                </figcaption>
+            </figure>
         </section>
     </div>
-    <!-- per-slide history panels (empty placeholders for you to fill) -->
+
     <div id="history-era-1932" class="history-panel" style="display:none;">
         <div class="history-panel-content">
             <span class="close-history">&times;</span>
