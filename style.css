@@ -1,11 +1,8 @@
-/* ...existing code... */
 html, body {
     margin: 0;
     padding: 0;
-    min-height: 100%;
-    /* allow vertical scrolling so inline history panels can be revealed */
-    overflow-x: hidden;
-    overflow-y: auto;
+    height: 100%;
+    overflow: hidden;
     font-family: Arial, sans-serif;
 }
 
@@ -13,9 +10,8 @@ html, body {
     display: flex;
     flex-wrap: nowrap;        /* prevent slides from wrapping */
     transition: transform 0.7s ease-in-out;
-    min-height: 100vh; /* ensure slides fill viewport */
-    /* leave some extra space at the bottom so inline panels don't overlap */
-    padding-bottom: 120px;
+    height: 100vh;
+    /* remove fixed width so container size is determined by children */
 }
 
 .slide {
@@ -40,7 +36,6 @@ html, body {
 #era-1990 { background: purple; }
 #era-2010 { background: #fbc02d; }
 
-/* ...existing code... */
 .logo {
     width: 350px;
     cursor: pointer;
@@ -50,11 +45,10 @@ html, body {
 
 .logo:hover { transform: scale(1.05); }
 
-/* Info box base (centered by default) */
 .info-box {
     position: absolute;
     width: 240px;
-    padding: 0;                       /* remove padding so image is not inside white box */
+    padding: 0;      /* remove padding so image is not inside white box */
     background: transparent;          /* make container transparent */
     border-radius: 0;
     box-shadow: none;
@@ -83,7 +77,6 @@ html, body {
     margin: 0 0 8px 0; /* caption sits below the image */
 }
 
-/* caption only has the white box */
 .info-box p {
     background: rgba(255, 255, 255, 0.95);
     padding: 10px;
@@ -97,7 +90,6 @@ html, body {
     max-width: 220px;
 }
 
-/* Corner classes (override centered position) */
 .info-box.corner-top-right {
     top: 10%;
     right: 10%;
@@ -135,20 +127,18 @@ html, body {
     width: 100%;
     display: none; /* toggled via JS */
     background: transparent;
-    padding: 24px 0 48px 0;
+    padding: 30px 0 60px 0;
     box-sizing: border-box;
-    margin-top: 12px; /* small gap from slides */
 }
 
 .history-panel .history-panel-content {
     margin: 0 auto;
     background: white;
     width: min(1000px, 92%);
-    padding: 22px;
+    padding: 30px;
     border-radius: 12px;
     box-shadow: 0 6px 24px rgba(0,0,0,0.12);
     color: #111;
-    line-height: 1.5;
 }
 
 .close-history {
@@ -162,7 +152,6 @@ html, body {
     background: #f2f2f2;
 }
 
-/* nice history button */
 .history-btn {
     margin-top: 18px;
     padding: 10px 16px;
@@ -179,6 +168,6 @@ html, body {
 .history-btn:hover { transform: translateY(-3px); }
 .history-btn:active { transform: translateY(-1px); }
 
-/* typography */
+
 body { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
 h1,h2,h3 { font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin-top: 0 }
