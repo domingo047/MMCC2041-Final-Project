@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Lego Timeline</title>
     <link rel="stylesheet" href="style.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
     <script>
@@ -97,6 +98,34 @@
                 });
             }
         });
+        // each slide has its own inline history panel (empty by default for you to fill)
+        $('.history-btn').on('click', function () {
+            const $slide = $(this).closest('.slide');
+            const slideId = $slide.attr('id'); // e.g. "era-1932"
+            const $panel = $("#history-" + slideId);
+            if ($panel.length === 0) return; // no panel defined
+
+            // hide other panels
+            $('.history-panel').not($panel).filter(':visible').slideUp(200);
+
+            if ($panel.is(':visible')) {
+                $panel.slideUp(200, function () {
+                    $('html, body').animate({ scrollTop: 0 }, 300);
+                });
+            } else {
+                $panel.slideDown(300, function () {
+                    $('html, body').animate({ scrollTop: $panel.offset().top - 10 }, 350);
+                });
+            }
+        });
+
+        // delegate close button for any history panel
+        $(document).on('click', '.history-panel .close-history', function () {
+            const $panel = $(this).closest('.history-panel');
+            $panel.slideUp(250, function () {
+                $('html, body').animate({ scrollTop: 0 }, 300);
+            });
+        });
     });
     </script>
 </head>
@@ -104,6 +133,7 @@
     <div class="slides">
         <section class="slide" id="era-1932">
             <img src="logos/Lego_1934.webp" class="logo" id="logo-1932" alt="LEGO 1930s Logo">
+            <button class="history-btn">Read Full LEGO History</button>
 
             <div class="info-box" id="info1">
                 <img src="photos/Ole_Kirk_Christiansen.jpeg" alt="Wooden Toys">
@@ -128,6 +158,7 @@
 
         <section class="slide" id="era-1940">
             <img src="logos/Lego_1946.webp" class="logo" alt="Era 2 Logo">
+            <button class="history-btn">Read Full LEGO History</button>
 
             <div class="info-box" id="info5">
                 <img src="photos/Injection Molding.webp" alt="First LEGO Brick">
@@ -152,6 +183,7 @@
 
         <section class="slide" id="era-1970">
             <img src="logos/Lego_System_1960.svg" class="logo" alt="Era 3 Logo">
+            <button class="history-btn">Read Full LEGO History</button>
 
             <div class="info-box" id="info9">
                 <img src="photos/lego wheels.jpg" alt="Introduction of LEGO wheels">
@@ -176,6 +208,7 @@
 
         <section class="slide" id="era-1990">
             <img src="logos/Lego_1972.svg" class="logo" alt="Era 4 Logo">
+            <button class="history-btn">Read Full LEGO History</button>
 
             <div class="info-box" id="info14">
                 <img src="photos/Lego minfig.avif" alt="First LEGO Minifigure">
@@ -200,6 +233,7 @@
 
         <section class="slide" id="era-2010">
             <img src="logos/Lego.svg" class="logo" alt="Era 5 Logo">
+            <button class="history-btn">Read Full LEGO History</button>
 
             <div class="info-box" id="info17">
                 <img src="photos/lego star wars.jpg" alt="First licensed partnership (LEGO Star Wars)">
@@ -222,5 +256,162 @@
             </div>
         </section>
     </div>
+    <!-- per-slide history panels (empty placeholders for you to fill) -->
+    <div id="history-era-1932" class="history-panel" style="display:none;">
+        <div class="history-panel-content">
+            <span class="close-history">&times;</span>
+            <h1>1932–1949: The Beginning of LEGO</h1>
+            <p>
+            LEGO originated in 1932 when Ole Kirk Christiansen, a carpenter from Billund, Denmark,
+            began producing wooden furniture and household goods during the Great Depression.
+            Economic pressure forced him to pivot into smaller products that required less material, and
+            he eventually began crafting wooden toys. These toys included cars, ducks, and yo-yos,
+            all hand-carved and polished. In 1934, Christiansen renamed his workshop to "LEGO,"
+            derived from the Danish phrase “Leg Godt,” meaning “play well.” This simple phrase would
+            eventually become the philosophical foundation for the company’s direction.
+            </p>
+            <p>
+The workshop struggled financially for years, and Christiansen was forced to take risks
+to continue operating. He reinvested profits into improving product quality, believing that
+children deserved well-built toys regardless of the family's financial situation. In 1942, the
+factory caught fire and destroyed most of the wooden toy inventory. Rather than quitting, he
+rebuilt and took on this disaster as a turning point. In 1947, LEGO purchased one of the first
+plastic injection molds in Denmark. The decision was controversial because plastic was not
+considered a premium material at the time. Many believed parents would never buy “cheap
+plastic toys.”
+</p>
+<p>
+In 1949, LEGO released its first plastic product: the “Automatic Binding Brick.” Although
+not identical to the modern LEGO brick, it introduced the idea of interlocking construction.
+These early plastic bricks represented a shift not just in materials, but in thinking. LEGO
+was no longer creating toys—it was creating a building system.
+</p>
+        </div>
+    </div>
+
+    <div id="history-era-1940" class="history-panel" style="display:none;">
+        <div class="history-panel-content">
+            <span class="close-history">&times;</span>
+            <h1>1950–1972: Establishing the System of Play</h1>
+<p>
+During the 1950s and 1960s, LEGO evolved from simply producing toys into designing
+a structured and intentional building system. In 1954, the concept of the “LEGO System of
+Play” emerged. The core idea was that every piece produced must work with past and future
+pieces. This marked a radical shift in the toy industry, which traditionally focused on
+standalone items that offered limited longevity. The System of Play created a universal
+building language that encouraged imagination without restrictions.
+</p>
+<p>
+In 1958, LEGO patented the modern brick still used today. Its internal tube-and-stud
+system improved clutch power and stability, making structures far more durable. To further
+expand creativity, the first set of LEGO wheels was introduced in 1962. Wheels allowed
+children to build cars, trucks, and machinery for the first time, establishing motion as part of
+construction play. LEGO also began producing instruction manuals in 1964. Unlike
+traditional toys, LEGO manuals encouraged problem solving, following sequences, and
+independent thinking.
+</p>
+<p>
+In 1968, LEGO entered a completely new domain—theme parks. LEGOLAND Billund
+opened and attracted more than 600,000 visitors in its first year. It served as a physical
+celebration of the brand’s creativity and proven the scale of LEGO’s cultural impact. By
+the early 1970s, LEGO began producing products for classroom use, experimenting with the
+concept of structured learning through building. These early education kits laid the
+foundation for what would eventually become LEGO Education.
+</p>
+
+        </div>
+    </div>
+
+    <div id="history-era-1970" class="history-panel" style="display:none;">
+        <div class="history-panel-content">
+            <span class="close-history">&times;</span>
+            <h1>1973–1998: World-Building, Characters, and Engineering</h1>
+<p>
+The 1970s through the late 1990s marked the transformation of LEGO from a building
+material into a storytelling medium. In 1978, LEGO introduced the modern minifigure. It
+featured a simple smiley face and movable limbs, intentionally designed so that any child,
+regardless of background, could project narratives and emotions onto the character. The
+minifigure became the visual identity of the brand.
+</p>
+<p>
+LEGO then introduced themed worlds such as Space, Castle, and Town. These themes
+allowed children to build coherent environments instead of random structures. By
+organizing sets around narratives, LEGO shifted from a “building toy” to a creativity and
+storytelling tool. In 1980, LEGO established a professional design department, adopting
+computer-aided design to maintain consistent quality and open the door to more complex
+models. In 1986, the Technic line launched. Technic introduced gears, axles, and pneumatic
+components, encouraging engineering thinking and functional mechanical design.
+</p>
+<p>
+The early 1990s saw LEGO achieve global cultural visibility. The company broke multiple
+Guinness World Records, including the tallest LEGO tower and largest LEGO castle. In
+1996, LEGO.com launched and expanded the brand into digital spaces. In 1998, LEGO
+introduced Mindstorms, allowing children to build programmable robots. Mindstorms was a
+pivotal moment—it blurred the boundary between play and STEM learning, influencing
+future robotic and engineering education programs worldwide.
+</p>
+
+        </div>
+    </div>
+
+    <div id="history-era-1990" class="history-panel" style="display:none;">
+        <div class="history-panel-content">
+            <span class="close-history">&times;</span>
+            <h1>1999–2010: Licensing and Survival</h1>
+<p>
+This era began with one of the most significant business moves LEGO had ever made: the
+launch of LEGO Star Wars in 1999. This marked the company’s first major licensing
+partnership, proving that combining storytelling universes with LEGO construction could
+attract new and older audiences. The success of Star Wars led to additional collaborations,
+including Harry Potter, which expanded LEGO’s reach into mainstream entertainment.
+</p>
+<p>
+However, success led to overconfidence. Between 2001 and 2003, LEGO expanded into
+too many non-core markets, including theme parks, clothing, and large lifestyle products.
+This caused severe financial loss and nearly resulted in bankruptcy. In 2004, LEGO
+executives made a decisive course correction. They eliminated product lines that did not
+support building and returned to the design philosophy that every LEGO set should enrich
+the System of Play. Production was simplified, budgets reduced, and manufacturing
+outsourced strategically.
+</p>
+<p>
+By 2010, LEGO’s comeback was complete. The company doubled down on quality,
+returned manufacturing focus to core brick-based sets, and expanded strategically into
+digital gaming. LEGO proved that growth did not come from producing more products, but
+from maintaining compatibility, creativity, and design excellence.
+</p>
+
+        </div>
+    </div>
+
+    <div id="history-era-2010" class="history-panel" style="display:none;">
+        <div class="history-panel-content">
+            <span class="close-history">&times;</span>
+            <h1>2010–Present: Culture, Innovation, and Sustainability</h1>
+<p>
+In the 2010s, LEGO became more than a toy brand: it became a cultural icon. In 2014,
+“The LEGO Movie” was released, shifting public perception of the brand from a children’s
+toy to a cross-media storytelling franchise. The film highlighted LEGO’s core values:
+creativity, collaboration, and imagination. The positive reception demonstrated the enduring
+emotional connection people have with the brick throughout their lives.
+</p>
+<p>
+LEGO Ideas, an online platform where fans submit and vote on set concepts, further
+reinforced LEGO’s collaborative identity. Sets such as the Saturn V Rocket, Friends Central
+Perk, and fan-designed castles show that LEGO now co-creates with its community. Beyond
+entertainment, LEGO committed heavily to sustainability. The company began producing
+plant-based polyethylene bricks and experimenting with recycled PET materials. LEGO also
+announced goals to phase out non-sustainable plastics and achieve carbon-neutral
+manufacturing.
+</p>
+<p>
+Today LEGO continues to influence design, education, and engineering. The brick remains
+relevant because LEGO never abandoned its defining principle: every element, regardless of
+year, must connect. It is a rare example of innovation built on permanence.
+</p>
+
+        </div>
+    </div>
+
 </body>
 </html>
